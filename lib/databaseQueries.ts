@@ -89,3 +89,22 @@ export async function createTable(client: PoolClient, tableName: string, columns
     }
 }
 
+export async function getAllRows(client: PoolClient, tableName: string): Promise<ReturnObject<any[]>> {
+    try{
+
+        const result = await client.query(`SELECT * FROM "${tableName}"`);
+
+        return {
+            status: true,
+            data: result.rows.length > 0 ? result.rows : [],
+            error: '',
+        };
+
+    } catch (error) {
+        return {
+            status: false,
+            data: [],
+            error: error as string,
+        };
+    }
+}
